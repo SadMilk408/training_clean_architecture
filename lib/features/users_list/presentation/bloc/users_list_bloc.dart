@@ -17,6 +17,7 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
     required this.getUsersList,
   }) : super(EmptyState()) {
     on<UsersListLoadingEvent>((event, emit) async {
+      emit(LoadingState());
       final failureOrSuccess =
           await getUsersList(Params(page: event.page, results: event.results));
       failureOrSuccess?.fold(
