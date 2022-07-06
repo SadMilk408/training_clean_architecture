@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'features/users_list/presentation/pages/users_list_page.dart';
+import 'features/auth/presentation/pages/auth_page.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         brightness:  Brightness.dark,
         primarySwatch: Colors.red,
       ),
-      home: const UsersListPage(),
+      home: const AuthPage(),
     );
   }
 }

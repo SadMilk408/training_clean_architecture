@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
@@ -44,7 +45,7 @@ void main() {
 
   group('fromJson', () {
     test(
-      'should return a valid model JSON',
+      'should return a valid models JSON',
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =

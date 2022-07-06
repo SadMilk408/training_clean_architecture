@@ -8,12 +8,44 @@ import 'package:training_clean_architecture/features/users_list/data/data_source
 import 'package:training_clean_architecture/features/users_list/data/repositories/users_list_repository_impl.dart';
 import 'package:training_clean_architecture/features/users_list/domain/usecases/get_users_list.dart';
 
+import 'features/auth/data/data_sources/login_local_data_source.dart';
+import 'features/auth/data/repositories/login_repository_impl.dart';
+import 'features/auth/domain/repositories/login_repository.dart';
+import 'features/auth/domain/usecases/login_use_case.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/users_list/domain/repositories/users_list_repository.dart';
 import 'features/users_list/presentation/bloc/users_list_bloc.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  /// Features - Auth
+  // Bloc
+  sl.registerFactory(
+    () => AuthBloc(
+      getLogin: sl(),
+      setLogin: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => GetLogin(sl()));
+  sl.registerLazySingleton(() => SetLogin(sl()));
+
+  // Repository
+  sl.registerLazySingleton<LoginRepository>(
+    () => LoginRepositoryImpl(
+      localDataSource: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<LoginLocalDataSource>(
+    () => LoginLocalDataSourceImpl(
+      sharedPreferences: sl(),
+    ),
+  );
+
   /// Features - Users List
   // Bloc
   sl.registerFactory(

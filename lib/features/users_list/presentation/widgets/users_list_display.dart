@@ -18,7 +18,7 @@ class _UsersListDisplayState extends State<UsersListDisplay> {
   int pageCount = 1;
 
   Future<void> _onRefresh() async {
-    context.read<UsersListBloc>().add(UsersListLoadingEvent(1, 20));
+    context.read<UsersListBloc>().add(const UsersListLoadingEvent(1, 20));
   }
 
   @override
