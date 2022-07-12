@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
-import 'package:training_clean_architecture/core/network.dart';
+import 'package:training_clean_architecture/core/network/network.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_remote_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
@@ -30,7 +30,7 @@ class UsersListRepositoryImpl implements UsersListRepository {
         localDataSource.cacheUsersList(remoteTrivia);
         return Right(remoteTrivia ?? const UsersListModel(results: []));
       } on ServerException {
-        return Left(ServerFailure(message: 'Ошибка сервера'));
+        return Left(ServerFailure(message: 'Server failed'));
       }
     } else {
       try {

@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
-import 'package:training_clean_architecture/core/network.dart';
+import 'package:training_clean_architecture/core/network/network.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_remote_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';

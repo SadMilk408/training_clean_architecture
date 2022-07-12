@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/features/auth/data/models/login_model.dart';
 
@@ -10,8 +11,6 @@ abstract class LoginLocalDataSource {
   Future<void>? cacheLogin(LoginModel loginModel);
 }
 
-const CACHED_LOGIN = 'CACHED_LOGIN';
-
 class LoginLocalDataSourceImpl implements LoginLocalDataSource {
   final SharedPreferences sharedPreferences;
 
@@ -19,7 +18,7 @@ class LoginLocalDataSourceImpl implements LoginLocalDataSource {
 
   @override
   Future<LoginModel>? getLastLogin() {
-    final jsonString = sharedPreferences.getString(CACHED_LOGIN);
+    final jsonString = sharedPreferences.getString(cachedLogin);
     if (jsonString != null) {
       return Future.value(LoginModel.fromJson(jsonDecode(jsonString)));
     } else {
@@ -30,7 +29,7 @@ class LoginLocalDataSourceImpl implements LoginLocalDataSource {
   @override
   Future<void>? cacheLogin(LoginModel loginModelToCache) {
     return sharedPreferences.setString(
-      CACHED_LOGIN,
+      cachedLogin,
       jsonEncode(loginModelToCache.toJson()),
     );
   }

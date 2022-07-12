@@ -1,6 +1,6 @@
 import 'package:training_clean_architecture/features/auth/domain/entities/login_entity.dart';
 
-class LoginModel extends LoginEntity{
+class LoginModel extends LoginEntity {
   const LoginModel({required super.username});
 
   factory LoginModel.fromJson(Map<String, dynamic> json) {

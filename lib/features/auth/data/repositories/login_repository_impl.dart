@@ -24,9 +24,9 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
-  Future<Either<Failure, bool>>? setLoginToCache(String username) async {
-    try{
-      await localDataSource.cacheLogin(LoginModel(username: username));
+  Future<Either<Failure, bool>>? setLoginToCache(LoginModel loginModel) async {
+    try {
+      await localDataSource.cacheLogin(loginModel);
       return const Right(true);
     } on CacheException {
       return Left(CacheFailure(message: 'cache failure'));

@@ -3,11 +3,7 @@ part of 'auth_bloc.dart';
 @immutable
 abstract class AuthEvent {}
 
-class AutoAuthEvent extends AuthEvent {
-  final BuildContext context;
-
-  AutoAuthEvent({required this.context});
-}
+class AutoAuthEvent extends AuthEvent {}
 
 class SaveLoginToCacheEvent extends AuthEvent {
   final LoginModel loginModel;

@@ -1,6 +1,4 @@
-class AppRoutes{
-  static const String auth = '/authorization';
-  static const String allUsers = '/allUsers';
-  static const String userInfo = '/userInfo';
-  static const String favorites = '/favorites';
-}
+const String auth = '/authorization';
+const String allUsers = '/allUsers';
+const String userInfo = '/userInfo';
+const String favorites = '/favorites';

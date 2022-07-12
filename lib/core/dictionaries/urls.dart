@@ -1,3 +1,1 @@
-class Urls{
-  static const String srv = 'randomuser.me';
-}
+const String srv = 'randomuser.me';

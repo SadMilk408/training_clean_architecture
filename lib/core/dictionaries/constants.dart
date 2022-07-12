@@ -1,4 +1,4 @@
-class AppConstants{
-  static const String LOGIN = 'LOGIN';
-  static const String FAVORITES = 'FAVORITES';
-}
+const String login = 'LOGIN';
+const String favorites = 'FAVORITES';
+const String cachedLogin = 'CACHED_LOGIN';
+const String cachedUserInfo = 'CACHED_USER_INFO';

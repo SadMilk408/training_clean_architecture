@@ -76,20 +76,29 @@ UsersListResultsLocationModel _$UsersListResultsLocationModelFromJson(
           json['street'] as Map<String, dynamic>),
       city: json['city'] as String,
       state: json['state'] as String,
-      postcode: json['postcode'] as dynamic,
+      postcode: json['postcode'],
       coordinates: UsersListResultsLocationCoordinatesModel.fromJson(
           json['coordinates'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UsersListResultsLocationModelToJson(
-        UsersListResultsLocationModel instance) =>
-    <String, dynamic>{
-      'street': instance.street.toJson(),
-      'city': instance.city,
-      'state': instance.state,
-      'postcode': instance.postcode,
-      'coordinates': instance.coordinates.toJson(),
-    };
+    UsersListResultsLocationModel instance) {
+  final val = <String, dynamic>{
+    'street': instance.street.toJson(),
+    'city': instance.city,
+    'state': instance.state,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('postcode', instance.postcode);
+  val['coordinates'] = instance.coordinates.toJson();
+  return val;
+}
 
 UsersListResultsLocationStreetModel
     _$UsersListResultsLocationStreetModelFromJson(Map<String, dynamic> json) =>
