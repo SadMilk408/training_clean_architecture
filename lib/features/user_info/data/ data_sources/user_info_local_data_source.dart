@@ -26,6 +26,7 @@ class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
   @override
   Future<void> deleteUserInfo(UsersListResultsModel usersListResultsModel) {
     // TODO: реализовать удаление конкретного юзера, а не всех
+
     return sharedPreferences.remove(cachedUserInfo);
   }
 }
