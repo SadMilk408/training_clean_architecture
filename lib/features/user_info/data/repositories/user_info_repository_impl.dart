@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
@@ -13,18 +15,31 @@ class UserInfoRepositoryImpl implements UserInfoRepository {
   });
 
   @override
-  Future<Either<Failure, bool>> setUserInfoToCache(UsersListResultsModel usersListResultsModel) async {
+  Future<Either<Failure, List<UsersListResultsModel>>>? getUsersInfoListFromCache() async {
     try {
-      await localDataSource.cacheUserInfo(usersListResultsModel);
-      return const Right(true);
+      final listModel = await localDataSource.getUsersInfo();
+      return Right(listModel);
     } on CacheException {
-      return Left(CacheFailure(message: 'cache failure'));
+      return Left(CacheFailure(message: 'cache empty'));
     }
   }
 
   @override
-  Future<Either<Failure, bool>>? deleteUserInfoFromCache(UsersListResultsModel usersListResultsModel) {
-    // TODO: implement deleteUserInfoFromCache
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> updateUserInfoToCache(UsersListResultsModel usersListResultsModel) async {
+    try {
+      final listModel = await localDataSource.getUsersInfo();
+      if(listModel.contains(usersListResultsModel)){
+        listModel.remove(usersListResultsModel);
+        await localDataSource.cacheUserInfo(listModel);
+        return Left(CacheFailure(message: 'delete user from favorite'));
+      } else {
+        listModel.add(usersListResultsModel);
+        await localDataSource.cacheUserInfo(listModel);
+        return const Right(true);
+      }
+    } on CacheException {
+      localDataSource.cacheUserInfo([usersListResultsModel]);
+      return const Right(true);
+    }
   }
 }

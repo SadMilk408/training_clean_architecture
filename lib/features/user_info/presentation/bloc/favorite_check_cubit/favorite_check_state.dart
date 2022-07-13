@@ -5,4 +5,5 @@ abstract class FavoriteCheckState {}
 
 class FavoriteCheckInitial extends FavoriteCheckState {}
 
-class FavoriteCheckChangeState extends FavoriteCheckState {}
+class FavoriteOnState extends FavoriteCheckState {}
+class FavoriteOffState extends FavoriteCheckState {}

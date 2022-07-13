@@ -4,13 +4,13 @@ import 'package:training_clean_architecture/core/usecases/usecase.dart';
 import 'package:training_clean_architecture/features/user_info/domain/repositories/user_info_repository.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
-class SetUserInfo implements UseCase<bool, UsersListResultsModel> {
+class UpdateUserInfo implements UseCase<bool, UsersListResultsModel> {
   final UserInfoRepository repository;
 
-  SetUserInfo(this.repository);
+  UpdateUserInfo(this.repository);
 
   @override
   Future<Either<Failure, bool>?> call(UsersListResultsModel usersListResultsModel) async {
-    return await repository.setUserInfoToCache(usersListResultsModel);
+    return await repository.updateUserInfoToCache(usersListResultsModel);
   }
 }

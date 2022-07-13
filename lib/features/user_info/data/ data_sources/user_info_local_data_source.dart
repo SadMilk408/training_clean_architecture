@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_clean_architecture/core/dictionaries/constants.dart';
+import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
 abstract class UserInfoLocalDataSource {
-  Future<void> cacheUserInfo(UsersListResultsModel usersListResultsModel);
-  Future<void> deleteUserInfo(UsersListResultsModel usersListResultsModel);
+  Future<List<UsersListResultsModel>> getUsersInfo();
+  Future<void> cacheUserInfo(List<UsersListResultsModel> usersListResultsModel);
 }
 
 class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
@@ -15,18 +16,20 @@ class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
   UserInfoLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
-  Future<bool> cacheUserInfo(UsersListResultsModel usersListResultsModel) {
-    // TODO: реализовать дополнение кеша, а не простую перезапись
-    return sharedPreferences.setString(
-      cachedUserInfo,
-      jsonEncode(usersListResultsModel.toJson()),
-    );
+  Future<List<UsersListResultsModel>> getUsersInfo() {
+    final jsonStringList = sharedPreferences.getStringList(cachedLogin);
+    if (jsonStringList != null) {
+      return Future.value(jsonStringList.map((e) => UsersListResultsModel.fromJson(jsonDecode(e))).toList());
+    } else {
+      throw CacheException();
+    }
   }
 
   @override
-  Future<void> deleteUserInfo(UsersListResultsModel usersListResultsModel) {
-    // TODO: реализовать удаление конкретного юзера, а не всех
-
-    return sharedPreferences.remove(cachedUserInfo);
+  Future<void> cacheUserInfo(List<UsersListResultsModel> usersListResultsModel) {
+    return sharedPreferences.setStringList(
+      cachedUserInfo,
+      [jsonEncode(usersListResultsModel)],
+    );
   }
 }
