@@ -10,7 +10,7 @@ class GetUsersInfoList implements UseCase<List<UsersListResultsModel>, NoParams>
   GetUsersInfoList(this.repository);
 
   @override
-  Future<Either<Failure, List<UsersListResultsModel>>?> call(NoParams) async {
+  Future<Either<Failure, List<UsersListResultsModel>>> call(NoParams) async {
     return await repository.getUsersInfoListFromCache();
   }
 }

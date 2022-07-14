@@ -4,10 +4,10 @@ import 'package:training_clean_architecture/core/usecases/usecase.dart';
 import 'package:training_clean_architecture/features/user_info/domain/repositories/user_info_repository.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
-class UpdateUserInfo implements UseCase<bool, UsersListResultsModel> {
+class CheckUserInfo implements UseCase<bool, UsersListResultsModel> {
   final UserInfoRepository repository;
 
-  UpdateUserInfo(this.repository);
+  CheckUserInfo(this.repository);
 
   @override
   Future<Either<Failure, bool>> call(UsersListResultsModel usersListResultsModel) async {

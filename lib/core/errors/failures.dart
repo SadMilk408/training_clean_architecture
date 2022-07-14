@@ -14,10 +14,10 @@ class ServerFailure extends Failure{
 }
 
 class CacheFailure extends Failure{
-  final String message;
-  CacheFailure({required this.message});
+  final String? message;
+  CacheFailure({this.message});
   @override
-  String get error => message;
+  String get error => message ?? '';
 }
 
 class UnAuthFailure extends Failure{

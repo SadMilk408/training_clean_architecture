@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
@@ -15,12 +13,26 @@ class UserInfoRepositoryImpl implements UserInfoRepository {
   });
 
   @override
-  Future<Either<Failure, List<UsersListResultsModel>>>? getUsersInfoListFromCache() async {
+  Future<Either<Failure, List<UsersListResultsModel>>> getUsersInfoListFromCache() async {
     try {
       final listModel = await localDataSource.getUsersInfo();
       return Right(listModel);
     } on CacheException {
       return Left(CacheFailure(message: 'cache empty'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> checkUserInfoInCache(UsersListResultsModel usersListResultsModel) async {
+    try {
+      final listModel = await localDataSource.getUsersInfo();
+      if(listModel.contains(usersListResultsModel)){
+        return const Right(true);
+      } else {
+        return const Right(false);
+      }
+    } on CacheException {
+     return Left(CacheFailure());
     }
   }
 
