@@ -12,7 +12,7 @@ import 'package:training_clean_architecture/features/users_list/data/models/user
 import 'user_info_test.mocks.dart';
 
 @GenerateMocks([UserInfoRepository])
-void main(){
+void main() {
   late CheckUserInfo checkUserInfoUsecase;
   late GetUsersInfoList getUsersInfoListUsecase;
   late UpdateUserInfo updateUserInfoUsecase;
@@ -60,49 +60,63 @@ void main(){
     when(mockUserInfoRepository.getUsersInfoListFromCache())
         .thenAnswer((_) async => const Right(tUserInfoModel));
     // act
-    final result =
-      await getUsersInfoListUsecase(NoParams());
+    final result = await getUsersInfoListUsecase(NoParams());
     // assert
     expect(result, const Right(tUserInfoModel));
     verify(mockUserInfoRepository.getUsersInfoListFromCache());
     verifyNoMoreInteractions(mockUserInfoRepository);
   });
 
-  // test('should return true if user info in cache', () async {
-  //   // arrange
-  //   when(mockUserInfoRepository.checkUserInfoInCache(any))
-  //       .thenAnswer((_) async => const Right(true));
-  //   // act
-  //   final result =
-  //       await checkUserInfoUsecase(tUserInfo);
-  //   // assert
-  //   expect(result, const Right(true));
-  //   verify(mockUserInfoRepository.checkUserInfoInCache(tUserInfo));
-  //   verifyNoMoreInteractions(mockUserInfoRepository);
-  // });
-  //
-  // test('should return failure if user info cache failed', () async {
-  //   // arrange
-  //   when(mockUserInfoRepository.checkUserInfoInCache(any))
-  //       .thenAnswer((_) async => Left(CacheFailure(message: 'cache empty')));
-  //   // act
-  //   final result = await checkUserInfoUsecase(tUserInfo);
-  //   // assert
-  //   expect(result, Left(CacheFailure(message: 'cache empty')));
-  //   verify(mockUserInfoRepository.checkUserInfoInCache(tUserInfo));
-  //   verifyNoMoreInteractions(mockUserInfoRepository);
-  // });
+  test('should return true if user info in cache', () async {
+    // arrange
+    when(mockUserInfoRepository.checkUserInfoInCache(any))
+        .thenAnswer((_) async => const Right(true));
+    // act
+    final result = await checkUserInfoUsecase(tUserInfoModel.results![0]);
+    // assert
+    expect(result, const Right(true));
+    verify(mockUserInfoRepository
+        .checkUserInfoInCache(tUserInfoModel.results![0]));
+    verifyNoMoreInteractions(mockUserInfoRepository);
+  });
 
-  // test('should return true if user info in cache', () async {
-  //   // arrange
-  //   when(mockUserInfoRepository.updateUserInfoToCache(any))
-  //       .thenAnswer((_) async => const Right(true));
-  //   // act
-  //   final result =
-  //       await updateUserInfoUsecase(tUserInfo);
-  //   // assert
-  //   expect(result, const Right(true));
-  //   verify(mockUserInfoRepository.updateUserInfoToCache(tUserInfo));
-  //   verifyNoMoreInteractions(mockUserInfoRepository);
-  // });
+  test('should return failure if user info cache failed', () async {
+    // arrange
+    when(mockUserInfoRepository.checkUserInfoInCache(any))
+        .thenAnswer((_) async => Left(CacheFailure(message: 'cache empty')));
+    // act
+    final result = await checkUserInfoUsecase(tUserInfoModel.results![0]);
+    // assert
+    expect(result, Left(CacheFailure(message: 'cache empty')));
+    verify(mockUserInfoRepository
+        .checkUserInfoInCache(tUserInfoModel.results![0]));
+    verifyNoMoreInteractions(mockUserInfoRepository);
+  });
+
+  test('update should return true', () async {
+    // arrange
+    when(mockUserInfoRepository.updateUserInfoToCache(any))
+        .thenAnswer((_) async => const Right(true));
+    // act
+    final result = await updateUserInfoUsecase(tUserInfoModel.results![0]);
+    // assert
+    expect(result, const Right(true));
+    verify(mockUserInfoRepository
+        .updateUserInfoToCache(tUserInfoModel.results![0]));
+    verifyNoMoreInteractions(mockUserInfoRepository);
+  });
+
+  test('update should return failure', () async {
+    // arrange
+    when(mockUserInfoRepository.updateUserInfoToCache(any)).thenAnswer(
+        (_) async =>
+            Left(CacheFailure(message: 'user info delete from cache')));
+    // act
+    final result = await updateUserInfoUsecase(tUserInfoModel.results![0]);
+    // assert
+    expect(result, Left(CacheFailure(message: 'user info delete from cache')));
+    verify(mockUserInfoRepository
+        .updateUserInfoToCache(tUserInfoModel.results![0]));
+    verifyNoMoreInteractions(mockUserInfoRepository);
+  });
 }

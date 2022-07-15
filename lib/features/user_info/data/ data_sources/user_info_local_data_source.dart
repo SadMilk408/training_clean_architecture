@@ -7,7 +7,7 @@ import 'package:training_clean_architecture/features/users_list/data/models/user
 
 abstract class UserInfoLocalDataSource {
   Future<UsersListModel>? getUsersInfo();
-  Future<void>? cacheUserInfo(UsersListModel usersListResultsModel);
+  Future<void>? cacheUsersInfo(UsersListModel usersListResultsModel);
 }
 
 class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
@@ -26,7 +26,7 @@ class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
   }
 
   @override
-  Future<void>? cacheUserInfo(UsersListModel usersListResultsModel) {
+  Future<void>? cacheUsersInfo(UsersListModel usersListResultsModel) {
     return sharedPreferences.setString(
       cachedUserInfo,
       jsonEncode(usersListResultsModel),

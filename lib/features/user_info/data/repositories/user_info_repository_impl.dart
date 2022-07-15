@@ -42,16 +42,16 @@ class UserInfoRepositoryImpl implements UserInfoRepository {
       final listModel = await localDataSource.getUsersInfo();
       if(listModel!.results!.contains(usersListResultsModel)){
         listModel.results!.remove(usersListResultsModel);
-        await localDataSource.cacheUserInfo(listModel);
+        await localDataSource.cacheUsersInfo(listModel);
         return Left(CacheFailure(message: 'user info delete from cache'));
       } else {
         listModel.results!.add(usersListResultsModel);
-        await localDataSource.cacheUserInfo(listModel);
+        await localDataSource.cacheUsersInfo(listModel);
         return const Right(true);
       }
     } on CacheException {
       final listModel = UsersListModel(results: [usersListResultsModel]);
-      await localDataSource.cacheUserInfo(listModel);
+      await localDataSource.cacheUsersInfo(listModel);
       return const Right(true);
     }
   }
