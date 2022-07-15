@@ -13,44 +13,45 @@ class UserInfoRepositoryImpl implements UserInfoRepository {
   });
 
   @override
-  Future<Either<Failure, List<UsersListResultsModel>>> getUsersInfoListFromCache() async {
+  Future<Either<Failure, UsersListModel>>? getUsersInfoListFromCache() async {
     try {
       final listModel = await localDataSource.getUsersInfo();
-      return Right(listModel);
+      return Right(listModel!);
     } on CacheException {
       return Left(CacheFailure(message: 'cache empty'));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> checkUserInfoInCache(UsersListResultsModel usersListResultsModel) async {
+  Future<Either<Failure, bool>>? checkUserInfoInCache(UsersListResultsModel usersListResultsModel) async {
     try {
       final listModel = await localDataSource.getUsersInfo();
-      if(listModel.contains(usersListResultsModel)){
+      if(listModel!.results!.contains(usersListResultsModel)){
         return const Right(true);
       } else {
-        return const Right(false);
+        return Left(CacheFailure());
       }
     } on CacheException {
-     return Left(CacheFailure());
+     return Left(CacheFailure(message: 'cache empty'));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> updateUserInfoToCache(UsersListResultsModel usersListResultsModel) async {
+  Future<Either<Failure, bool>>? updateUserInfoToCache(UsersListResultsModel usersListResultsModel) async {
     try {
       final listModel = await localDataSource.getUsersInfo();
-      if(listModel.contains(usersListResultsModel)){
-        listModel.remove(usersListResultsModel);
+      if(listModel!.results!.contains(usersListResultsModel)){
+        listModel.results!.remove(usersListResultsModel);
         await localDataSource.cacheUserInfo(listModel);
-        return Left(CacheFailure(message: 'delete user from favorite'));
+        return Left(CacheFailure(message: 'user info delete from cache'));
       } else {
-        listModel.add(usersListResultsModel);
+        listModel.results!.add(usersListResultsModel);
         await localDataSource.cacheUserInfo(listModel);
         return const Right(true);
       }
     } on CacheException {
-      localDataSource.cacheUserInfo([usersListResultsModel]);
+      final listModel = UsersListModel(results: [usersListResultsModel]);
+      await localDataSource.cacheUserInfo(listModel);
       return const Right(true);
     }
   }

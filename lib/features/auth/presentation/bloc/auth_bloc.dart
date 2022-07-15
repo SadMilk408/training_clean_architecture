@@ -21,7 +21,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final failureOrLogin = await getLogin(NoParams());
       failureOrLogin?.fold(
         (failure) => FailedState(),
-        (login) => DoneState(),
+        (login) {
+          Navigator.of(event.context).pushReplacement(MaterialPageRoute(
+            builder: (context) => UsersListPage(),
+          ));
+        },
       );
     });
 
@@ -29,7 +33,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final failureOrCached = await setLogin(event.loginModel);
       failureOrCached?.fold(
         (failure) => FailedState(),
-        (cached) => DoneState(),
+        (cached) {
+          Navigator.of(event.context).pushReplacement(MaterialPageRoute(
+            builder: (context) => UsersListPage(),
+          ));
+        },
       );
     });
   }

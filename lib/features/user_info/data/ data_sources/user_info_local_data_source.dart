@@ -6,8 +6,8 @@ import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
 abstract class UserInfoLocalDataSource {
-  Future<List<UsersListResultsModel>> getUsersInfo();
-  Future<void> cacheUserInfo(List<UsersListResultsModel> usersListResultsModel);
+  Future<UsersListModel>? getUsersInfo();
+  Future<void>? cacheUserInfo(UsersListModel usersListResultsModel);
 }
 
 class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
@@ -16,20 +16,20 @@ class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
   UserInfoLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
-  Future<List<UsersListResultsModel>> getUsersInfo() {
-    final jsonStringList = sharedPreferences.getStringList(cachedLogin);
+  Future<UsersListModel>? getUsersInfo() {
+    final jsonStringList = sharedPreferences.getString(cachedUserInfo);
     if (jsonStringList != null) {
-      return Future.value(jsonStringList.map((e) => UsersListResultsModel.fromJson(jsonDecode(e))).toList());
+      return Future.value(UsersListModel.fromJson(jsonDecode(jsonStringList)));
     } else {
       throw CacheException();
     }
   }
 
   @override
-  Future<void> cacheUserInfo(List<UsersListResultsModel> usersListResultsModel) {
-    return sharedPreferences.setStringList(
+  Future<void>? cacheUserInfo(UsersListModel usersListResultsModel) {
+    return sharedPreferences.setString(
       cachedUserInfo,
-      [jsonEncode(usersListResultsModel)],
+      jsonEncode(usersListResultsModel),
     );
   }
 }

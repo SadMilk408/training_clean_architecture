@@ -3,6 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_clean_architecture/core/network/network.dart';
+import 'package:training_clean_architecture/features/user_info/domain/usecases/check_user_info.dart';
+import 'package:training_clean_architecture/features/user_info/domain/usecases/get_users_info_list.dart';
+import 'package:training_clean_architecture/features/user_info/domain/usecases/update_user_info.dart';
+import 'package:training_clean_architecture/features/user_info/presentation/bloc/favorite_check_cubit/favorite_check_cubit.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_remote_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/repositories/users_list_repository_impl.dart';
@@ -14,6 +18,9 @@ import 'features/auth/domain/repositories/login_repository.dart';
 import 'features/auth/domain/usecases/get_login.dart';
 import 'features/auth/domain/usecases/set_login.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/user_info/data/ data_sources/user_info_local_data_source.dart';
+import 'features/user_info/data/repositories/user_info_repository_impl.dart';
+import 'features/user_info/domain/repositories/user_info_repository.dart';
 import 'features/users_list/domain/repositories/users_list_repository.dart';
 import 'features/users_list/presentation/bloc/users_list_bloc.dart';
 
@@ -43,6 +50,33 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<LoginLocalDataSource>(
     () => LoginLocalDataSourceImpl(
+      sharedPreferences: sl(),
+    ),
+  );
+
+  /// Features - User Info
+  sl.registerFactory(
+    () => FavoriteCheckCubit(
+      updateUserInfo: sl(),
+      checkUserInfo: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => CheckUserInfo(sl()));
+  sl.registerLazySingleton(() => GetUsersInfoList(sl()));
+  sl.registerLazySingleton(() => UpdateUserInfo(sl()));
+
+  // Repository
+  sl.registerLazySingleton<UserInfoRepository>(
+    () => UserInfoRepositoryImpl(
+      localDataSource: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<UserInfoLocalDataSource>(
+    () => UserInfoLocalDataSourceImpl(
       sharedPreferences: sl(),
     ),
   );

@@ -7,7 +7,8 @@ import 'dart:async' as _i3;
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:training_clean_architecture/core/errors/failures.dart' as _i5;
-import 'package:training_clean_architecture/features/auth/data/models/login_model.dart';
+import 'package:training_clean_architecture/features/auth/data/models/login_model.dart'
+    as _i6;
 import 'package:training_clean_architecture/features/auth/domain/repositories/login_repository.dart'
     as _i2;
 
@@ -30,7 +31,8 @@ class MockLoginRepository extends _i1.Mock implements _i2.LoginRepository {
   }
 
   @override
-  _i3.Future<_i4.Either<_i5.Failure, bool>>? setLoginToCache(LoginModel? login) =>
-      (super.noSuchMethod(Invocation.method(#setLoginToCache, [login]))
+  _i3.Future<_i4.Either<_i5.Failure, bool>>? setLoginToCache(
+          _i6.LoginModel? loginModel) =>
+      (super.noSuchMethod(Invocation.method(#setLoginToCache, [loginModel]))
           as _i3.Future<_i4.Either<_i5.Failure, bool>>?);
 }

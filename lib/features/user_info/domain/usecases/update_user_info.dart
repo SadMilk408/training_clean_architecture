@@ -10,7 +10,7 @@ class UpdateUserInfo implements UseCase<bool, UsersListResultsModel> {
   UpdateUserInfo(this.repository);
 
   @override
-  Future<Either<Failure, bool>> call(UsersListResultsModel usersListResultsModel) async {
+  Future<Either<Failure, bool>?> call(UsersListResultsModel usersListResultsModel) async {
     return await repository.updateUserInfoToCache(usersListResultsModel);
   }
 }

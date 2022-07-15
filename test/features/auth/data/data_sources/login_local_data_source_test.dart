@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/features/auth/data/data_sources/login_local_data_source.dart';

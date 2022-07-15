@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         brightness:  Brightness.dark,
         primarySwatch: Colors.red,
       ),
-      home: const AuthPage(),
+      home: AuthPage(),
     );
   }
 }

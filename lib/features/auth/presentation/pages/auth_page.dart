@@ -20,15 +20,8 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<AuthBloc>()..add(AutoAuthEvent()),
-      child: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is DoneState) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => UsersListPage(),
-            ));
-          }
-        },
+      create: (context) => sl<AuthBloc>()..add(AutoAuthEvent(context: context)),
+      child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return Scaffold(
             body: LoginPageDisplay(formKeyLogin: _formKeyLogin, login: _login),

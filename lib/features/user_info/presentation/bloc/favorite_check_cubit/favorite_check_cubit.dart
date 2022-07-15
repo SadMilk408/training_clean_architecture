@@ -15,15 +15,17 @@ class FavoriteCheckCubit extends Cubit<FavoriteCheckState> {
     required this.checkUserInfo,
   }) : super(FavoriteCheckInitial());
 
-  // TODO: сделать ф-ю для проверки находиться ли юзер в кеше, если да то идет в [FavoriteOnState()]
   checkFavoriteInCache(UsersListResultsModel usersListResultsModel) async {
     final failureOrCache = await checkUserInfo(usersListResultsModel);
-    failureOrCache.fold((l) => null, (r) => null);
+    failureOrCache?.fold(
+      (failure) => emit(FavoriteOffState()),
+      (cached) => emit(FavoriteOnState()),
+    );
   }
 
   changeFavorite(UsersListResultsModel usersListResultsModel) async {
     final failureOrCached = await updateUserInfo(usersListResultsModel);
-    failureOrCached.fold(
+    failureOrCached?.fold(
       (failure) => emit(FavoriteOffState()),
       (cached) => emit(FavoriteOnState()),
     );

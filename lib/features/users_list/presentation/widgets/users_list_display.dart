@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:training_clean_architecture/features/user_info/presentation/bloc/favorite_check_cubit/favorite_check_cubit.dart';
+import 'package:training_clean_architecture/features/user_info/presentation/pages/user_info_page.dart';
 import 'package:training_clean_architecture/features/users_list/domain/entities/users_list_entity.dart';
 import 'package:training_clean_architecture/features/users_list/presentation/bloc/users_list_bloc.dart';
+import 'package:training_clean_architecture/injection_container.dart';
 
 class UsersListDisplay extends StatefulWidget {
   final UsersListEntity usersList;
@@ -34,16 +37,16 @@ class _UsersListDisplayState extends State<UsersListDisplay> {
             child: MaterialButton(
               padding: EdgeInsets.zero,
               onPressed: () {
-                /*Navigator.of(context).push(
+                Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => BlocProvider(
-                        create: (context) => FavoriteCheckCubit(),
-                        child: UserInfo(
-                          user: users[index],
+                        create: (context) => sl<FavoriteCheckCubit>(),
+                        child: FavoritePage(
+                          user: widget.usersList.results![index],
                         ),
                       ),
                     ),
-                  );*/
+                  );
               },
               child: Container(
                 color: Colors.blue.withOpacity(0.5),
