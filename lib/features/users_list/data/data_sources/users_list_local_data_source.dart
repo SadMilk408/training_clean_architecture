@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
@@ -14,8 +15,6 @@ abstract class UsersListLocalDataSource {
   Future<void>? cacheUsersList(UsersListModel? usersListToCache);
 }
 
-const CACHED_USERS_LIST = 'CACHED_USERS_LIST';
-
 class UsersListLocalDataSourceImpl implements UsersListLocalDataSource {
   final SharedPreferences sharedPreferences;
 
@@ -23,7 +22,7 @@ class UsersListLocalDataSourceImpl implements UsersListLocalDataSource {
 
   @override
   Future<UsersListModel>? getLastUsersList() {
-    final jsonString = sharedPreferences.getString(CACHED_USERS_LIST);
+    final jsonString = sharedPreferences.getString(cachedUsersList);
     if (jsonString != null) {
       return Future.value(UsersListModel.fromJson(jsonDecode(jsonString)));
     } else {
@@ -34,7 +33,7 @@ class UsersListLocalDataSourceImpl implements UsersListLocalDataSource {
   @override
   Future<void>? cacheUsersList(UsersListModel? usersListToCache) {
     return sharedPreferences.setString(
-      CACHED_USERS_LIST,
+      cachedUsersList,
       jsonEncode(usersListToCache?.toJson()),
     );
   }

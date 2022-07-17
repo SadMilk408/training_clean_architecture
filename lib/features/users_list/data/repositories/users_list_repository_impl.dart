@@ -24,19 +24,19 @@ class UsersListRepositoryImpl implements UsersListRepository {
     int? page,
     int? results,
   ) async {
-    if (await networkInfo.isConnected ?? false) {
-      try {
-        final remoteTrivia = await remoteDataSource.getUsersList(page, results);
-        localDataSource.cacheUsersList(remoteTrivia);
-        return Right(remoteTrivia ?? const UsersListModel(results: []));
-      } on ServerException {
-        return Left(ServerFailure(message: 'Server failed'));
-      }
-    } else {
-      try {
-        final localTrivia = await localDataSource.getLastUsersList();
-        return Right(localTrivia ?? const UsersListModel(results: []));
-      } on CacheException {
+    try {
+      final localUsers = await localDataSource.getLastUsersList();
+      return Right(localUsers!);
+    } on CacheException {
+      if (await networkInfo.isConnected ?? false) {
+        try {
+          final remoteTrivia = await remoteDataSource.getUsersList(page, results);
+          localDataSource.cacheUsersList(remoteTrivia);
+          return Right(remoteTrivia ?? const UsersListModel(results: []));
+        } on ServerException {
+          return Left(ServerFailure(message: 'Server failed'));
+        }
+      } else {
         return Left(CacheFailure(message: 'cache failed'));
       }
     }

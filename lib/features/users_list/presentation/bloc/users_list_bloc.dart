@@ -1,14 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
 import 'package:training_clean_architecture/features/users_list/domain/entities/users_list_entity.dart';
 import 'package:training_clean_architecture/features/users_list/domain/usecases/get_users_list.dart';
 
 part 'users_list_event.dart';
 part 'users_list_state.dart';
-
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
-const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
 
 class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
   late GetUsersList getUsersList;
@@ -29,9 +27,9 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return SERVER_FAILURE_MESSAGE;
+        return serverFailureMessage;
       case CacheFailure:
-        return CACHE_FAILURE_MESSAGE;
+        return cacheFailureMessage;
       default:
         return 'Unexpected error';
     }

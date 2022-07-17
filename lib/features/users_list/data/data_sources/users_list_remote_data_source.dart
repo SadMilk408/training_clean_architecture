@@ -18,10 +18,16 @@ class UsersListRemoteDataSourceImpl implements UsersListRemoteDataSource {
 
   @override
   Future<UsersListModel>? getUsersList(int? page, int? results) =>
-      _getUsersFromUrl(Uri.https('randomuser.me', '/api/', {
-        'page': '$page',
-        'results': '$results'
-      }));
+      _getUsersFromUrl(
+        Uri.https(
+          'randomuser.me',
+          '/api/',
+          {
+            'page': '$page',
+            'results': '$results',
+          },
+        ),
+      );
 
   Future<UsersListModel> _getUsersFromUrl(Uri uri) async {
     final response = await client.get(

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
@@ -40,7 +41,7 @@ void main() {
       // act
       final result = await dataSource.getLastUsersList();
       // assert
-      verify(mockSharedPreferences.getString(CACHED_USERS_LIST));
+      verify(mockSharedPreferences.getString(cachedUsersList));
       expect(result, equals(tUsersListModel));
     });
 
@@ -93,7 +94,7 @@ void main() {
       // assert
       final expectedJsonString = jsonEncode(tUsersListModel.toJson());
       verify(mockSharedPreferences.setString(
-          CACHED_USERS_LIST, expectedJsonString));
+          cachedUsersList, expectedJsonString));
     });
   });
 }
