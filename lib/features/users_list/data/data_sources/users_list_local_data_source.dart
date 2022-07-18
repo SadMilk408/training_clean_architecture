@@ -34,7 +34,7 @@ class UsersListLocalDataSourceImpl implements UsersListLocalDataSource {
   Future<void>? cacheUsersList(UsersListModel? usersListToCache) {
     return sharedPreferences.setString(
       cachedUsersList,
-      jsonEncode(usersListToCache?.toJson()),
+      jsonEncode(usersListToCache),
     );
   }
 }

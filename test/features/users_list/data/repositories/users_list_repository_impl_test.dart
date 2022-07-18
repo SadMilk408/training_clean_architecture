@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
 import 'package:training_clean_architecture/core/network/network.dart';
+import 'package:training_clean_architecture/features/user_info/data/%20data_sources/user_info_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_remote_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
@@ -86,7 +87,7 @@ void main() {
           ),
         ],
       );
-    final UsersListModel tUsersList = tUsersListModel;
+    const UsersListModel tUsersList = tUsersListModel;
 
     test('should check if the device is online', () async {
       // arrange

@@ -70,7 +70,7 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton<UserInfoRepository>(
     () => UserInfoRepositoryImpl(
-      localDataSource: sl(),
+      localDataSource: sl(), localAllUsersDataSource: sl(),
     ),
   );
 
@@ -86,6 +86,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => UsersListBloc(
       getUsersList: sl(),
+      getUsersInfoList: sl(),
     ),
   );
 

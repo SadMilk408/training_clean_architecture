@@ -38,15 +38,15 @@ class _UsersListDisplayState extends State<UsersListDisplay> {
               padding: EdgeInsets.zero,
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) => sl<FavoriteCheckCubit>(),
-                        child: FavoritePage(
-                          user: widget.usersList.results![index],
-                        ),
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => sl<FavoriteCheckCubit>(),
+                      child: FavoritePage(
+                        user: widget.usersList.results![index],
                       ),
                     ),
-                  );
+                  ),
+                );
               },
               child: Container(
                 color: Colors.blue.withOpacity(0.5),

@@ -4,14 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/exceptions.dart';
-import 'package:training_clean_architecture/features/user_info/data/%20data_sources/user_info_local_data_source.dart';
+import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 import '../../../users_list/data/data_sources/users_list_local_data_source_test.mocks.dart';
 
 void main() {
-  late UserInfoLocalDataSource dataSource;
+  late UsersListLocalDataSource dataSource;
   late MockSharedPreferences mockSharedPreferences;
 
   const tUserInfoModel = UsersListModel(
@@ -47,7 +47,7 @@ void main() {
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
     dataSource =
-        UserInfoLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
+        UsersListLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
   });
 
   group('getUserInfo', () {
@@ -56,7 +56,7 @@ void main() {
       when(mockSharedPreferences.getString(any))
           .thenReturn(fixture('users_list.json'));
       // act
-      final result = await dataSource.getUsersInfo();
+      final result = await dataSource.getLastUsersList();
       // assert
       verify(mockSharedPreferences.getString(cachedUserInfo));
       expect(result, equals(tUserInfoModel));
@@ -67,7 +67,7 @@ void main() {
       // arrange
       when(mockSharedPreferences.getString(any)).thenReturn(null);
       // act
-      final call = dataSource.getUsersInfo;
+      final call = dataSource.getLastUsersList;
       // assert
       expect(() => call(), throwsA(isA<CacheException>()));
     });
@@ -79,7 +79,7 @@ void main() {
       when(mockSharedPreferences.setString(any, any))
           .thenAnswer((_) async => true);
       // act
-      dataSource.cacheUsersInfo(tUserInfoModel);
+      dataSource.cacheUsersList(tUserInfoModel);
       // assert
       final expectedJsonString = jsonEncode(tUserInfoModel.toJson());
       verify(

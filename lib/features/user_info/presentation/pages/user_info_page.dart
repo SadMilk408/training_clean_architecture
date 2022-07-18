@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training_clean_architecture/features/user_info/presentation/bloc/favorite_check_cubit/favorite_check_cubit.dart';
+import 'package:training_clean_architecture/features/user_info/presentation/widgets/widgets.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -65,36 +66,7 @@ class _FavoritePageState extends State<FavoritePage> {
           ),
         ),
       ),
-      floatingActionButton: BlocBuilder<FavoriteCheckCubit, FavoriteCheckState>(
-        builder: (context, state) {
-          if (state is FavoriteOffState) {
-            return FloatingActionButton(
-              backgroundColor: Colors.cyan,
-              onPressed: () {
-                context.read<FavoriteCheckCubit>().changeFavorite(widget.user);
-              },
-              child: const Icon(
-                Icons.favorite,
-                color: Colors.white,
-                size: 30,
-              ),
-            );
-          } else if(state is FavoriteOnState) {
-            return FloatingActionButton(
-              backgroundColor: Colors.lightBlueAccent,
-              onPressed: () {
-                context.read<FavoriteCheckCubit>().changeFavorite(widget.user);
-              },
-              child: const Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: 30,
-              ),
-            );
-          }
-          return const SizedBox.shrink();
-        },
-      ),
+      floatingActionButton: FloatingFavoriteButton(widget: widget),
     );
   }
 }

@@ -3,18 +3,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:training_clean_architecture/features/user_info/data/%20data_sources/user_info_local_data_source.dart';
 import 'package:training_clean_architecture/features/user_info/data/repositories/user_info_repository_impl.dart';
+import 'package:training_clean_architecture/features/users_list/data/data_sources/users_list_local_data_source.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 
 class MockLocalDataSource extends Mock
     implements UserInfoLocalDataSource {}
 
+class MockLocalAllUsersDataSource extends Mock
+    implements UsersListLocalDataSource {}
+
 void main(){
   late UserInfoRepositoryImpl repository;
   late MockLocalDataSource mockLocalDataSource;
+  late MockLocalAllUsersDataSource mockLocalAllUsersDataSource;
 
   setUp(() {
     mockLocalDataSource = MockLocalDataSource();
-    repository = UserInfoRepositoryImpl(localDataSource: mockLocalDataSource);
+    mockLocalAllUsersDataSource = MockLocalAllUsersDataSource();
+    repository = UserInfoRepositoryImpl(localDataSource: mockLocalDataSource, localAllUsersDataSource: mockLocalAllUsersDataSource);
   });
 
   const tUserInfoModel = UsersListModel(
