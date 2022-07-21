@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:training_clean_architecture/core/dictionaries/constants.dart';
 import 'package:training_clean_architecture/core/errors/failures.dart';
 import 'package:training_clean_architecture/core/usecases/usecase.dart';
+import 'package:training_clean_architecture/features/user_info/data/models/favorite_users_model.dart';
 import 'package:training_clean_architecture/features/user_info/domain/usecases/get_users_info_list.dart';
 import 'package:training_clean_architecture/features/users_list/data/models/users_list_model.dart';
 import 'package:training_clean_architecture/features/users_list/domain/entities/users_list_entity.dart';
@@ -20,7 +21,7 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
     required this.getUsersInfoList,
   }) : super(EmptyState()) {
 
-    List<UsersListResultsModel> list = [];
+    List<FavoriteUsersModel> list = [];
 
     on<UsersListLoadingEvent>((event, emit) async {
       emit(LoadingState());
@@ -29,7 +30,10 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
       failureOrSuccessCachedUsers?.fold(
           (failure) {},
           (r) {
-            list = r.results!;
+            // list = r.results!;
+            for (var element in r.results!) {
+              list.add(FavoriteUsersModel(usersListModel: element, favoriteFlag: true));
+            }
           }
       );
 
@@ -38,8 +42,10 @@ class UsersListBloc extends Bloc<UsersListEvent, UsersListState> {
       failureOrSuccess?.fold(
           (failure) => emit(ErrorState(message: _mapFailureToMessage(failure))),
           (r) {
-            list += r.results!;
-            emit(DoneState(usersList: UsersListEntity(results: list)));
+            for (var element in r.results!) {
+              list.add(FavoriteUsersModel(usersListModel: element));
+            }
+            emit(DoneState(usersListWithFavorites: list));
           });
     });
   }

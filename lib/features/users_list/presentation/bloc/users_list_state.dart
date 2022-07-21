@@ -18,7 +18,7 @@ class ErrorState extends UsersListState {
 }
 
 class DoneState extends UsersListState {
-  final UsersListEntity usersList;
+  final List<FavoriteUsersModel> usersListWithFavorites;
 
-  const DoneState({required this.usersList});
+  const DoneState({required this.usersListWithFavorites});
 }

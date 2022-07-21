@@ -29,9 +29,7 @@ class UsersListPage extends StatelessWidget {
           } else if(state is ErrorState){
             return MessageDisplay(message: state.message,);
           } else if(state is DoneState){
-            if(state.usersList.results != null){
-              return UsersListDisplay(usersList: state.usersList,);
-            }
+            return UsersListDisplay(usersList: state.usersListWithFavorites,);
           }
           return const SizedBox.shrink();
         },
