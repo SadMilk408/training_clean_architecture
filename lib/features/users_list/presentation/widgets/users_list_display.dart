@@ -7,6 +7,8 @@ import 'package:training_clean_architecture/features/users_list/data/models/user
 import 'package:training_clean_architecture/features/users_list/presentation/bloc/users_list_bloc.dart';
 import 'package:training_clean_architecture/injection_container.dart';
 
+import 'favorite_trailing.dart';
+
 class UsersListDisplay extends StatefulWidget {
   final List<FavoriteUsersModel> usersList;
 
@@ -74,50 +76,6 @@ class _UsersListDisplayState extends State<UsersListDisplay> {
           );
         },
       ),
-    );
-  }
-}
-
-class FavoriteTrailing extends StatefulWidget {
-  final UsersListResultsModel usersListResultsModel;
-
-  const FavoriteTrailing({
-    Key? key,
-    required this.usersListResultsModel,
-  }) : super(key: key);
-
-  @override
-  State<FavoriteTrailing> createState() => _FavoriteTrailingState();
-}
-
-class _FavoriteTrailingState extends State<FavoriteTrailing> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<FavoriteCheckCubit>().checkFavoriteInCache(widget.usersListResultsModel);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteCheckCubit, FavoriteCheckState>(
-      builder: (context, state) {
-        if (state is FavoriteOffState) {
-          return IconButton(
-            icon: const Icon(Icons.favorite_border),
-            onPressed: (){
-              context.read<FavoriteCheckCubit>().changeFavorite(widget.usersListResultsModel);
-            },
-          );
-        } else if(state is FavoriteOnState) {
-          return IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: (){
-              context.read<FavoriteCheckCubit>().changeFavorite(widget.usersListResultsModel);
-            },
-          );
-        }
-        return const SizedBox.shrink();
-      },
     );
   }
 }
